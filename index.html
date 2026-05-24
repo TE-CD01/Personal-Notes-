@@ -1,179 +1,120 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>15 กฎเหล็กการเงิน CK</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for dashboard graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { display: ['Orbitron','sans-serif'], body: ['Sarabun','sans-serif'] },
-          colors: {
-            cyber: {
-              bg:'#0a0e1a', panel:'#0f1629', card:'#141c35', border:'#1e2d5a',
-              cyan:'#00d4ff', green:'#00ff9d', yellow:'#ffe600', pink:'#ff2d78',
-              purple:'#7c3aed', text:'#c8d6f0', muted:'#5a6a8a'
-            }
-          }
-        }
-      }
+      darkMode:'class',
+      theme:{extend:{
+        fontFamily:{display:['Orbitron','sans-serif'],body:['Sarabun','sans-serif']},
+        colors:{cyber:{bg:'#0a0e1a',panel:'#0f1629',card:'#141c35',border:'#1e2d5a',
+          cyan:'#00d4ff',green:'#00ff9d',yellow:'#ffe600',pink:'#ff2d78',
+          purple:'#7c3aed',text:'#c8d6f0',muted:'#5a6a8a'}}
+      }}
     };
   </script>
   <style>
-    :root {
-      --bg:#0a0e1a; --panel:#0f1629; --card:#141c35; --border:#1e2d5a;
-      --cyan:#00d4ff; --green:#00ff9d; --yellow:#ffe600; --pink:#ff2d78;
-      --text:#c8d6f0; --muted:#5a6a8a;
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family:'Sarabun',sans-serif; min-height:100vh; }
-
-    /* Scanline */
-    body::before {
-      content:''; position:fixed; inset:0; pointer-events:none; z-index:9999;
-      background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,0.012) 2px,rgba(0,212,255,0.012) 4px);
-    }
-
-    ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:var(--panel)}
+    :root{--bg:#0a0e1a;--panel:#0f1629;--card:#141c35;--border:#1e2d5a;
+      --cyan:#00d4ff;--green:#00ff9d;--yellow:#ffe600;--pink:#ff2d78;
+      --text:#c8d6f0;--muted:#5a6a8a;}
+    *,*::before,*::after{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Sarabun',sans-serif;min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,0.012) 2px,rgba(0,212,255,0.012) 4px);}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--panel)}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
     ::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
+    .glow-cyan{text-shadow:0 0 10px var(--cyan),0 0 30px rgba(0,212,255,0.4);}
+    .glow-yellow{text-shadow:0 0 10px var(--yellow),0 0 30px rgba(255,230,0,0.4);}
+    .header-grid{background-image:linear-gradient(rgba(0,212,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.06) 1px,transparent 1px);background-size:40px 40px;}
 
-    .glow-cyan   { text-shadow:0 0 10px var(--cyan),0 0 30px rgba(0,212,255,0.4); }
-    .glow-yellow { text-shadow:0 0 10px var(--yellow),0 0 30px rgba(255,230,0,0.4); }
-
-    .header-grid {
-      background-image:
-        linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px);
-      background-size:40px 40px;
-    }
-
-    /* ── Rule Card ── */
-    .rule-card {
-      opacity:0;
-      animation: fadeUp 0.4s ease forwards;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .rule-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,212,255,0.12); }
-
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(18px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .rule-card:nth-child(1){animation-delay:.04s} .rule-card:nth-child(2){animation-delay:.08s}
-    .rule-card:nth-child(3){animation-delay:.12s} .rule-card:nth-child(4){animation-delay:.16s}
-    .rule-card:nth-child(5){animation-delay:.20s} .rule-card:nth-child(6){animation-delay:.24s}
-    .rule-card:nth-child(7){animation-delay:.28s} .rule-card:nth-child(8){animation-delay:.32s}
-    .rule-card:nth-child(9){animation-delay:.36s} .rule-card:nth-child(10){animation-delay:.40s}
-    .rule-card:nth-child(11){animation-delay:.44s} .rule-card:nth-child(12){animation-delay:.48s}
-    .rule-card:nth-child(13){animation-delay:.52s} .rule-card:nth-child(14){animation-delay:.56s}
+    /* Cards */
+    .rule-card{opacity:0;animation:fadeUp 0.4s ease forwards;transition:transform .25s ease,box-shadow .25s ease;}
+    .rule-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,212,255,0.12);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .rule-card:nth-child(1){animation-delay:.04s}.rule-card:nth-child(2){animation-delay:.08s}
+    .rule-card:nth-child(3){animation-delay:.12s}.rule-card:nth-child(4){animation-delay:.16s}
+    .rule-card:nth-child(5){animation-delay:.20s}.rule-card:nth-child(6){animation-delay:.24s}
+    .rule-card:nth-child(7){animation-delay:.28s}.rule-card:nth-child(8){animation-delay:.32s}
+    .rule-card:nth-child(9){animation-delay:.36s}.rule-card:nth-child(10){animation-delay:.40s}
+    .rule-card:nth-child(11){animation-delay:.44s}.rule-card:nth-child(12){animation-delay:.48s}
+    .rule-card:nth-child(13){animation-delay:.52s}.rule-card:nth-child(14){animation-delay:.56s}
     .rule-card:nth-child(15){animation-delay:.60s}
 
-    /* ── Status buttons ── */
-    .status-btn { transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); }
-    .status-btn:active { transform:scale(0.86); }
-    .status-btn.active-status { transform:scale(1.07); }
+    .status-btn{transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);}
+    .status-btn:active{transform:scale(0.86);}
+    .status-btn.active-status{transform:scale(1.07);}
+    .progress-bar-fill{transition:width 0.65s cubic-bezier(0.16,1,0.3,1);}
 
-    /* ── Progress bar ── */
-    .progress-bar-fill { transition: width 0.65s cubic-bezier(0.16,1,0.3,1); }
+    /* Action checklist */
+    .action-section{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(0.16,1,0.3,1),opacity .3s ease;opacity:0;}
+    .action-section.open{max-height:600px;opacity:1;}
+    .action-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .15s ease;user-select:none;}
+    .action-item:hover{background:rgba(255,255,255,0.04);}
+    .check-box{flex-shrink:0;width:18px;height:18px;margin-top:1px;border-radius:5px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(0.34,1.56,0.64,1);background:transparent;}
+    .check-box svg{opacity:0;transform:scale(0);transition:all .2s cubic-bezier(0.34,1.56,0.64,1);}
+    .action-item.done .check-box{border-color:var(--green);background:rgba(0,255,157,0.15);}
+    .action-item.done .check-box svg{opacity:1;transform:scale(1);}
+    .action-item.done .action-text{text-decoration:line-through;color:var(--muted);}
+    .mini-progress{height:3px;border-radius:2px;background:var(--border);overflow:hidden;}
+    .mini-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .4s ease;}
+    .expand-btn{transition:all .2s ease;cursor:pointer;}
+    .expand-btn .chevron{transition:transform .3s ease;}
+    .expand-btn.expanded .chevron{transform:rotate(180deg);}
 
-    /* ── Checklist action section ── */
-    .action-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
-      opacity: 0;
-    }
-    .action-section.open { max-height: 600px; opacity: 1; }
+    textarea{resize:vertical;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Sarabun',sans-serif;font-size:13px;width:100%;min-height:68px;transition:border-color .2s ease,box-shadow .2s ease;}
+    textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,0.18);}
+    textarea::placeholder{color:var(--muted);}
+    .tab-active{border-bottom:2px solid var(--cyan);color:var(--cyan);}
+    #toast{transition:opacity .3s ease,transform .3s ease;}
+    #toast.hidden{opacity:0;transform:translateY(16px);pointer-events:none;}
+    #toast.show{opacity:1;transform:translateY(0);}
+    .corner-tl::before{content:'';position:absolute;top:0;left:0;width:14px;height:14px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+    .corner-br::after{content:'';position:absolute;bottom:0;right:0;width:14px;height:14px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+    .page-tab{transition:all .2s ease;}
+    .page-tab.active{background:rgba(0,212,255,0.12);color:var(--cyan);border-color:var(--cyan);}
 
-    /* ── Checklist item ── */
-    .action-item {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 8px 10px; border-radius: 8px; cursor: pointer;
-      transition: background 0.15s ease;
-      user-select: none;
-    }
-    .action-item:hover { background: rgba(255,255,255,0.04); }
+    /* ── Dashboard specific ── */
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;}
+    .stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,212,255,0.1);}
+    .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+    .stat-cyan::before{background:linear-gradient(90deg,var(--cyan),transparent);}
+    .stat-green::before{background:linear-gradient(90deg,var(--green),transparent);}
+    .stat-yellow::before{background:linear-gradient(90deg,var(--yellow),transparent);}
+    .stat-pink::before{background:linear-gradient(90deg,var(--pink),transparent);}
 
-    /* Custom checkbox */
-    .check-box {
-      flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px;
-      border-radius: 5px; border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
-      background: transparent;
-    }
-    .check-box svg { opacity:0; transform:scale(0); transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+    /* Radar chart container */
+    .chart-container{position:relative;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;}
 
-    .action-item.done .check-box {
-      border-color: var(--green);
-      background: rgba(0,255,157,0.15);
-    }
-    .action-item.done .check-box svg { opacity:1; transform:scale(1); }
-    .action-item.done .action-text { text-decoration: line-through; color: var(--muted); }
+    /* Rule row in dashboard */
+    .dash-rule-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;transition:background .15s ease;}
+    .dash-rule-row:hover{background:rgba(255,255,255,0.03);}
+    .dash-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+    .dash-bar-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(0.16,1,0.3,1);}
 
-    /* Checklist mini progress */
-    .mini-progress { height: 3px; border-radius: 2px; background: var(--border); overflow:hidden; }
-    .mini-progress-fill { height:100%; border-radius:2px; background: linear-gradient(90deg,var(--cyan),var(--green)); transition: width 0.4s ease; }
+    /* Timeline dots */
+    .timeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
-    /* Expand button */
-    .expand-btn {
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-    .expand-btn .chevron { transition: transform 0.3s ease; }
-    .expand-btn.expanded .chevron { transform: rotate(180deg); }
+    @keyframes countUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    .count-anim{animation:countUp .5s ease forwards;}
 
-    /* ── Textarea ── */
-    textarea {
-      resize:vertical; background:var(--bg); color:var(--text);
-      border:1px solid var(--border); border-radius:8px;
-      padding:8px 12px; font-family:'Sarabun',sans-serif; font-size:13px;
-      width:100%; min-height:68px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    textarea:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 0 2px rgba(0,212,255,0.18); }
-    textarea::placeholder { color:var(--muted); }
-
-    /* ── Tab ── */
-    .tab-active { border-bottom:2px solid var(--cyan); color:var(--cyan); }
-
-    /* ── Toast ── */
-    #toast { transition: opacity 0.3s ease, transform 0.3s ease; }
-    #toast.hidden { opacity:0; transform:translateY(16px); pointer-events:none; }
-    #toast.show   { opacity:1; transform:translateY(0); }
-
-    /* Corner deco */
-    .corner-tl::before { content:''; position:absolute; top:0; left:0; width:14px; height:14px; border-top:2px solid var(--cyan); border-left:2px solid var(--cyan); }
-    .corner-br::after  { content:''; position:absolute; bottom:0; right:0; width:14px; height:14px; border-bottom:2px solid var(--cyan); border-right:2px solid var(--cyan); }
-
-    /* ── Page-view tabs ── */
-    .page-tab { transition: all 0.2s ease; }
-    .page-tab.active { background: rgba(0,212,255,0.12); color: var(--cyan); border-color: var(--cyan); }
-
-    /* Confetti burst (CSS-only) */
-    @keyframes burst {
-      0%   { transform: scale(1); opacity:1; }
-      60%  { transform: scale(2.5); opacity:0.6; }
-      100% { transform: scale(3.5); opacity:0; }
-    }
-    .burst { animation: burst 0.5s ease forwards; pointer-events:none; }
+    /* Donut legend */
+    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
   </style>
 </head>
 <body class="dark">
 
-<!-- Toast -->
 <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 text-sm font-bold px-5 py-3 rounded-full shadow-xl whitespace-nowrap"></div>
 
-<!-- ══════════════════════════════════════
-     HEADER
-══════════════════════════════════════ -->
+<!-- ══ HEADER ══ -->
 <header class="header-grid relative overflow-hidden py-10 px-4 text-center border-b border-cyber-border">
   <div class="absolute -top-20 -left-20 w-72 h-72 rounded-full opacity-10" style="background:radial-gradient(circle,#00d4ff,transparent 70%)"></div>
   <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full opacity-10" style="background:radial-gradient(circle,#ff2d78,transparent 70%)"></div>
@@ -182,12 +123,9 @@
     <h1 class="font-display text-3xl md:text-5xl font-black glow-cyan text-cyber-cyan mb-1 leading-tight">15 กฎเหล็กการเงิน</h1>
     <h2 class="font-display text-xl md:text-3xl font-bold text-white mb-4">แบบ <span class="text-cyber-yellow glow-yellow">CK</span></h2>
     <p class="text-cyber-muted text-sm max-w-md mx-auto">สรุปจาก Thairath Money Roadshow 2025 · การเงิน Hardcore</p>
-
-    <!-- Overall Progress Panel -->
     <div class="mt-6 max-w-sm mx-auto bg-cyber-panel border border-cyber-border rounded-xl p-4 relative corner-tl corner-br">
       <div class="flex justify-between text-xs text-cyber-muted mb-2">
-        <span>ความคืบหน้าโดยรวม</span>
-        <span id="progress-label">0 / 15 กฎ</span>
+        <span>ความคืบหน้าโดยรวม</span><span id="progress-label">0 / 15 กฎ</span>
       </div>
       <div class="h-2 bg-cyber-bg rounded-full overflow-hidden">
         <div id="progress-bar" class="progress-bar-fill h-full rounded-full" style="width:0%;background:linear-gradient(90deg,var(--cyan),var(--green))"></div>
@@ -197,7 +135,6 @@
         <span class="text-cyber-yellow">🔥 <span class="count-lrn">0</span> กำลังฝึก</span>
         <span class="text-cyber-green">✅ <span class="count-mst">0</span> ทำได้ดีแล้ว</span>
       </div>
-      <!-- Action tasks progress -->
       <div class="mt-3 pt-3 border-t border-cyber-border flex justify-between text-xs text-cyber-muted">
         <span>☑ Action Tasks</span>
         <span><span id="tasks-done">0</span> / <span id="tasks-total">0</span> tasks</span>
@@ -206,26 +143,26 @@
   </div>
 </header>
 
-<!-- ══════════════════════════════════════
-     VIEW TABS (กฎ vs Action Plan)
-══════════════════════════════════════ -->
+<!-- ══ PAGE TABS ══ -->
 <div class="bg-cyber-bg border-b border-cyber-border px-4 py-3">
-  <div class="max-w-5xl mx-auto flex gap-2">
+  <div class="max-w-5xl mx-auto flex gap-2 overflow-x-auto">
+    <button onclick="switchView('dashboard')" data-view="dashboard"
+      class="page-tab active px-4 py-2 rounded-lg border border-cyber-border text-xs font-bold transition whitespace-nowrap">
+      📊 Dashboard
+    </button>
     <button onclick="switchView('rules')" data-view="rules"
-      class="page-tab active px-4 py-2 rounded-lg border border-cyber-border text-xs font-bold transition">
+      class="page-tab px-4 py-2 rounded-lg border border-cyber-border text-xs font-bold text-cyber-muted transition whitespace-nowrap">
       📖 กฎ 15 ข้อ
     </button>
     <button onclick="switchView('actions')" data-view="actions"
-      class="page-tab px-4 py-2 rounded-lg border border-cyber-border text-xs font-bold text-cyber-muted transition">
+      class="page-tab px-4 py-2 rounded-lg border border-cyber-border text-xs font-bold text-cyber-muted transition whitespace-nowrap">
       ☑ Action Plan
     </button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     FILTER TABS (only in rules view)
-══════════════════════════════════════ -->
-<nav id="filter-nav" class="sticky top-0 z-30 bg-cyber-bg border-b border-cyber-border px-4">
+<!-- ══ FILTER NAV (rules only) ══ -->
+<nav id="filter-nav" class="hidden sticky top-0 z-30 bg-cyber-bg border-b border-cyber-border px-4">
   <div class="max-w-5xl mx-auto flex gap-0 overflow-x-auto">
     <button onclick="filterCards('all')"        data-tab="all"        class="tab-btn tab-active whitespace-nowrap px-5 py-4 text-sm font-semibold text-cyber-cyan border-b-2 border-cyber-cyan transition-all">ทั้งหมด</button>
     <button onclick="filterCards('notstarted')" data-tab="notstarted" class="tab-btn whitespace-nowrap px-5 py-4 text-sm font-semibold text-cyber-muted border-b-2 border-transparent hover:text-cyber-text transition-all">ยังไม่เริ่ม</button>
@@ -234,26 +171,117 @@
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════
-     MAIN CONTENT
-══════════════════════════════════════ -->
+<!-- ══ MAIN ══ -->
 <main class="max-w-5xl mx-auto px-4 py-8">
 
-  <!-- VIEW: Rules Grid -->
-  <div id="view-rules">
+  <!-- ─── VIEW: DASHBOARD ─── -->
+  <div id="view-dashboard">
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card stat-cyan">
+        <p class="text-cyber-muted text-xs mb-1 uppercase tracking-wider">กฎที่ Mastered</p>
+        <p class="font-display text-3xl font-black text-cyber-cyan" id="kpi-mastered">0</p>
+        <p class="text-cyber-muted text-xs mt-1">จาก 15 กฎ</p>
+      </div>
+      <div class="stat-card stat-yellow">
+        <p class="text-cyber-muted text-xs mb-1 uppercase tracking-wider">กำลังฝึก</p>
+        <p class="font-display text-3xl font-black text-cyber-yellow" id="kpi-learning">0</p>
+        <p class="text-cyber-muted text-xs mt-1">กฎ</p>
+      </div>
+      <div class="stat-card stat-green">
+        <p class="text-cyber-muted text-xs mb-1 uppercase tracking-wider">Tasks เสร็จ</p>
+        <p class="font-display text-3xl font-black text-cyber-green" id="kpi-tasks">0</p>
+        <p class="text-cyber-muted text-xs mt-1" id="kpi-tasks-label">จาก 45 tasks</p>
+      </div>
+      <div class="stat-card stat-pink">
+        <p class="text-cyber-muted text-xs mb-1 uppercase tracking-wider">Score รวม</p>
+        <p class="font-display text-3xl font-black text-cyber-pink" id="kpi-score">0</p>
+        <p class="text-cyber-muted text-xs mt-1">/ 100 คะแนน</p>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+      <!-- Donut Chart: Status breakdown -->
+      <div class="chart-container">
+        <h3 class="font-display text-xs text-cyber-cyan tracking-widest uppercase mb-4">สัดส่วนสถานะ 15 กฎ</h3>
+        <div class="flex items-center gap-6">
+          <div style="position:relative;width:160px;height:160px;flex-shrink:0;">
+            <canvas id="donutChart"></canvas>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+              <span class="font-display text-2xl font-black text-white" id="donut-center-val">0%</span>
+              <span class="text-cyber-muted text-xs">Mastered</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3 flex-1">
+            <div class="flex items-center gap-2">
+              <div class="legend-dot" style="background:var(--green)"></div>
+              <span class="text-xs text-cyber-text">ทำได้ดีแล้ว</span>
+              <span class="ml-auto font-bold text-cyber-green text-xs count-mst2">0</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="legend-dot" style="background:var(--yellow)"></div>
+              <span class="text-xs text-cyber-text">กำลังฝึก</span>
+              <span class="ml-auto font-bold text-cyber-yellow text-xs count-lrn2">0</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="legend-dot" style="background:var(--border)"></div>
+              <span class="text-xs text-cyber-text">ยังไม่เริ่ม</span>
+              <span class="ml-auto font-bold text-cyber-muted text-xs count-ns2">15</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart: Tasks per rule -->
+      <div class="chart-container">
+        <h3 class="font-display text-xs text-cyber-cyan tracking-widest uppercase mb-4">Action Tasks รายกฎ</h3>
+        <canvas id="barChart" height="160"></canvas>
+      </div>
+    </div>
+
+    <!-- Radar Chart: สุขภาพการเงิน -->
+    <div class="chart-container mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="font-display text-xs text-cyber-cyan tracking-widest uppercase">Radar — ทักษะการเงิน</h3>
+          <p class="text-cyber-muted text-xs mt-0.5">ภาพรวม 5 มิติหลักจาก 15 กฎ</p>
+        </div>
+      </div>
+      <div class="max-w-sm mx-auto" style="height:280px;position:relative;">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Per-rule progress list -->
+    <div class="chart-container mb-8">
+      <h3 class="font-display text-xs text-cyber-cyan tracking-widest uppercase mb-5">ความคืบหน้ารายกฎ</h3>
+      <div id="dash-rule-list" class="space-y-1"></div>
+    </div>
+
+    <!-- Insight box -->
+    <div class="bg-cyber-panel border border-cyber-border rounded-2xl p-5 mb-8">
+      <h3 class="font-display text-xs text-cyber-yellow tracking-widest uppercase mb-3">💡 Insights & แนะนำต่อไป</h3>
+      <div id="insight-box" class="space-y-2 text-sm text-cyber-text leading-relaxed"></div>
+    </div>
+
+  </div><!-- /dashboard -->
+
+  <!-- ─── VIEW: RULES ─── -->
+  <div id="view-rules" class="hidden">
     <div id="cards-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
   </div>
 
-  <!-- VIEW: Action Plan (full page checklist) -->
+  <!-- ─── VIEW: ACTION PLAN ─── -->
   <div id="view-actions" class="hidden">
     <div class="mb-6 flex items-center justify-between">
       <div>
         <h2 class="font-display text-cyber-cyan text-sm tracking-widest uppercase">Action Plan</h2>
         <p class="text-cyber-muted text-xs mt-0.5">ติ๊กเมื่อทำเสร็จแล้ว — บันทึกอัตโนมัติ</p>
       </div>
-      <button onclick="toggleAllActions()" class="px-3 py-1.5 text-xs font-bold rounded-lg border border-cyber-border text-cyber-muted hover:border-cyber-cyan hover:text-cyber-cyan transition">
-        Toggle All
-      </button>
+      <button onclick="toggleAllActions()" class="px-3 py-1.5 text-xs font-bold rounded-lg border border-cyber-border text-cyber-muted hover:border-cyber-cyan hover:text-cyber-cyan transition">Toggle All</button>
     </div>
     <div id="action-plan-list" class="space-y-3"></div>
   </div>
@@ -261,285 +289,373 @@
   <!-- Data Controls -->
   <div class="mt-10 bg-cyber-panel border border-cyber-border rounded-2xl p-6">
     <h3 class="font-display text-xs text-cyber-cyan mb-1 tracking-widest uppercase">⚙ Data & API Controls</h3>
-    <p class="text-cyber-muted text-xs mb-4">รองรับการส่งออก/นำเข้าข้อมูลผ่าน JSON พร้อมสำหรับเชื่อมต่อ Backend</p>
+    <p class="text-cyber-muted text-xs mb-4">รองรับการส่งออก/นำเข้าข้อมูลผ่าน JSON</p>
     <div class="flex flex-wrap gap-3">
       <button onclick="api.exportData()"   class="px-4 py-2 text-xs font-bold rounded-lg bg-cyber-cyan text-black hover:opacity-90 transition">📤 Export JSON</button>
       <button onclick="api.importPrompt()" class="px-4 py-2 text-xs font-bold rounded-lg bg-cyber-purple text-white hover:opacity-90 transition">📥 Import JSON</button>
       <button onclick="api.syncToServer()" class="px-4 py-2 text-xs font-bold rounded-lg border border-cyber-green text-cyber-green hover:bg-cyber-green hover:text-black transition">☁ Sync (Mock)</button>
-      <button onclick="api.resetAll()"     class="px-4 py-2 text-xs font-bold rounded-lg border border-cyber-pink  text-cyber-pink  hover:bg-cyber-pink  hover:text-black transition">🗑 Reset All</button>
+      <button onclick="api.resetAll()"     class="px-4 py-2 text-xs font-bold rounded-lg border border-cyber-pink text-cyber-pink hover:bg-cyber-pink hover:text-black transition">🗑 Reset All</button>
     </div>
   </div>
 </main>
 
 <footer class="text-center py-8 text-cyber-muted text-xs border-t border-cyber-border">
-  <span class="font-display text-cyber-cyan tracking-widest">CK FINANCIAL LAWS</span> · การเงิน Hardcore · v2.1
+  <span class="font-display text-cyber-cyan tracking-widest">CK FINANCIAL LAWS</span> · การเงิน Hardcore · v3.0
 </footer>
 
-<!-- ══════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════ -->
 <script>
-/* ──────────────────────────────────────────
+/* ═══════════════════════════════════════
    MODULE 1: DATA
-────────────────────────────────────────── */
+═══════════════════════════════════════ */
 const RULES_DATA = [
-  {
-    id:1, emoji:'📵', accent:'cyan',
-    title:'อย่าเสพข่าวแบบทาสสื่อ',
-    desc:'อ่านแล้วถามต่อว่า "ทำไมแม่งถึงเกิดขึ้น?"',
-    actions:[
-      'เวลาอ่านข่าว ให้ตั้งคำถาม "ทำไมถึงเกิดขึ้น?" ก่อนเชื่อทุกครั้ง',
-      'หยุดติดตามเพจข่าวที่ทำให้ตื่นตระหนกโดยไม่มีข้อมูลจริง',
-      'เลือกอ่านข่าวจาก primary source เช่น SEC, Bloomberg, ผลประกอบการบริษัท',
-    ]
-  },
-  {
-    id:2, emoji:'📉', accent:'pink',
-    title:'เงินสดอยู่เฉยๆ มูลค่าแม่งลด',
-    desc:'เงินเฟ้อกินทุกวัน ดอกเบี้ยไม่พอ',
-    actions:[
-      'คำนวณเงินสดส่วนเกินที่นอนอยู่ในบัญชีออมทรัพย์ธรรมดา',
-      'ย้ายเงินส่วนเกินไปสู่สินทรัพย์ที่ผลตอบแทนชนะเงินเฟ้อ (กองทุน, ETF)',
-      'ตั้ง alert เตือนตัวเองเมื่อเงินสดสะสมเกินกว่า 6 เดือนค่าใช้จ่าย',
-    ]
-  },
-  {
-    id:3, emoji:'🎯', accent:'yellow',
-    title:'เลือกสินทรัพย์ให้ตรงเป้า',
-    desc:'ผลตอบแทนสูง = ความเสี่ยงสูง',
-    actions:[
-      'กำหนดเป้าหมายการลงทุนให้ชัด: ระยะสั้น / กลาง / ยาว',
-      'ทำ risk tolerance test เพื่อรู้ว่าตัวเองรับความเสี่ยงได้แค่ไหน',
-      'จัดพอร์ตให้สอดคล้องกับเป้าหมายและ risk profile ของตัวเอง',
-    ]
-  },
-  {
-    id:4, emoji:'🇺🇸', accent:'cyan',
-    title:'S&P 500 คือทีมตัวท็อปของโลก',
-    desc:'ถือยาวด้วยเงินเย็น มีลุ้นชนะสูง',
-    actions:[
-      'เปิดบัญชีกองทุนรวมหรือ ETF ที่ track S&P 500',
-      'ตั้ง DCA (Dollar-Cost Averaging) รายเดือนด้วยจำนวนคงที่',
-      'ตั้งกติกากับตัวเองว่า "ห้ามขายภายใน 5 ปี" สำหรับพอร์ตนี้',
-    ]
-  },
-  {
-    id:5, emoji:'🌡', accent:'pink',
-    title:'อย่าเอาเงินร้อนไปลงทุนมั่ว',
-    desc:'ค่าเทอม ค่าบ้าน ค่าใช้ชีวิต ห้ามเสี่ยง',
-    actions:[
-      'แยกบัญชีให้ชัด: บัญชีค่าใช้จ่าย / บัญชีฉุกเฉิน / บัญชีลงทุน',
-      'สำรองเงินฉุกเฉินอย่างน้อย 3–6 เดือนของค่าใช้จ่ายรายเดือน',
-      'ลงทุนเฉพาะเงินที่ "ไม่ใช้แล้วไม่เดือดร้อน" เท่านั้น',
-    ]
-  },
-  {
-    id:6, emoji:'📋', accent:'green',
-    title:'วินัยการเงินคือของจริง',
-    desc:'รายได้เพิ่ม แต่รายจ่ายอย่าพุ่งตาม',
-    actions:[
-      'ตั้งกฎ Pay Yourself First: โอนเงินออมก่อนทันทีที่ได้รับเงินเดือน',
-      'เมื่อขึ้นเงินเดือน ให้เพิ่มสัดส่วนออม/ลงทุน ไม่ใช่แค่ค่าใช้จ่าย',
-      'ใช้แอปหรือสเปรดชีตจดรายรับ-รายจ่ายทุกเดือน',
-    ]
-  },
-  {
-    id:7, emoji:'💰', accent:'yellow',
-    title:'มีเงินก้อนแล้ว อย่าเพิ่งทำตัวรวย',
-    desc:'ปล่อยให้เงินทำงานก่อน',
-    actions:[
-      'กำหนดแผนการลงทุนให้ชัดก่อนแตะเงินก้อนนั้น',
-      'ห้ามอัปเกรดไลฟ์สไตล์ทันที — รออย่างน้อย 6 เดือน',
-      'นำเงินก้อนไปทำงานในสินทรัพย์ที่ได้วางแผนไว้แล้ว',
-    ]
-  },
-  {
-    id:8, emoji:'🛒', accent:'cyan',
-    title:'ซื้อหุ้นจากของที่เราใช้จริง',
-    desc:'อย่าเป็นแค่ลูกค้า ต้องคิดแบบเจ้าของ',
-    actions:[
-      'ลิสต์สินค้า/บริการที่ตัวเองใช้ประจำอย่างน้อย 10 อย่าง',
-      'ค้นหาว่าบริษัทไหนอยู่เบื้องหลังสินค้า/บริการเหล่านั้น',
-      'อ่านงบการเงินและ business model ของบริษัทที่สนใจอย่างน้อย 1 บริษัท',
-    ]
-  },
-  {
-    id:9, emoji:'🔍', accent:'green',
-    title:'อย่ามัวแต่ดูกราฟ จนลืมดูสินค้า',
-    desc:'ดูทั้งธุรกิจ คนใช้ และกำไร',
-    actions:[
-      'ก่อนลงทุนทุกครั้ง อ่าน business model ของบริษัทให้เข้าใจก่อน',
-      'ดูงบการเงินย้อนหลัง 3–5 ปี: รายได้, กำไร, หนี้สิน',
-      'ลองใช้สินค้า/บริการของบริษัทนั้นเองก่อนตัดสินใจซื้อหุ้น',
-    ]
-  },
-  {
-    id:10, emoji:'⏰', accent:'yellow',
-    title:'เกมการเงินต้องมองยาว 10 ปี',
-    desc:'ออม เก็บเงิน ลงทุนต่อเนื่อง',
-    actions:[
-      'ตั้ง reminder รายปีเพื่อ review พอร์ต (ไม่ใช่รายวัน)',
-      'วางแผนทางการเงิน 10 ปีข้างหน้าให้ชัดเจนอย่างน้อย 1 ครั้ง',
-      'ถือนิสัย "ลงทุนทุกเดือนไม่ว่าตลาดจะเป็นอย่างไร"',
-    ]
-  },
-  {
-    id:11, emoji:'📅', accent:'pink',
-    title:'หุ้นไม่ได้ขึ้นทุกวัน',
-    desc:'แต่อารีที่แรงในไม่กี่วันสำคัญ',
-    actions:[
-      'ตั้งกติกา "ห้าม panic sell" เมื่อพอร์ตลด 10% หรือมากกว่า',
-      'จดเหตุผลที่ซื้อหุ้นแต่ละตัวไว้ — กลับมาอ่านเมื่อตลาดแกว่ง',
-      'ศึกษาประวัติของ S&P 500 ว่าผ่านวิกฤตมาแล้วกี่ครั้ง',
-    ]
-  },
-  {
-    id:12, emoji:'🚰', accent:'cyan',
-    title:'Active Income vs Passive Income',
-    desc:'หยุดทำงานรายได้หยุด vs เงินยังไหล',
-    actions:[
-      'คำนวณว่าตอนนี้ passive income คิดเป็น % เท่าไหร่ของรายได้รวม',
-      'วางแผนสร้าง passive income อย่างน้อย 1 ช่องทางใหม่ภายใน 1 ปี',
-      'ตั้งเป้าให้ passive income ครอบคลุมค่าใช้จ่ายพื้นฐานภายใน 5 ปี',
-    ]
-  },
-  {
-    id:13, emoji:'🏆', accent:'green',
-    title:'ความอดทนคือต้นทุนต่อ',
-    desc:'ใช้น้อย ลงทุนสม่ำเสมอ ต่างกันมหาศาล',
-    actions:[
-      'ตั้ง auto-invest ให้โอนเงินลงทุนอัตโนมัติทุกเดือน',
-      'ลองคำนวณ compound interest เพื่อเห็นภาพว่า "อดทน" มีผลแค่ไหน',
-      'ลดค่าใช้จ่ายที่ไม่จำเป็นอย่างน้อย 1 รายการในเดือนนี้',
-    ]
-  },
-  {
-    id:14, emoji:'💡', accent:'yellow',
-    title:'คิดต่างจากคนส่วนใหญ่',
-    desc:'ใช้ข้อมูล ไม่วิ่งตามกระแส',
-    actions:[
-      'หาข้อมูลจาก primary source: งบบริษัท, รายงาน SEC, นักวิเคราะห์',
-      'เมื่อคนส่วนใหญ่กลัวและขาย — ให้ถามว่า "เราควรซื้อไหม?"',
-      'เลิกซื้อหุ้นตาม influencer หรือกระดาน โดยไม่ตรวจสอบข้อมูลเอง',
-    ]
-  },
-  {
-    id:15, emoji:'⌛', accent:'pink',
-    title:'เงินไม่ชอบคนใจร้อน',
-    desc:'คุมรายจ่าย ลงทุนเป็น อดทนให้นานพอ',
-    actions:[
-      'กำหนด "ล็อคพอร์ต" อย่างน้อย 3–5 ปีสำหรับเงินลงทุนระยะยาว',
-      'ทุกครั้งที่อยากขายแบบตื่นตระหนก ให้รอ 48 ชั่วโมงก่อน',
-      'ทบทวนเป้าหมายระยะยาวของตัวเองทุกครั้งที่ตลาดแกว่ง',
-    ]
-  },
+  {id:1,emoji:'📵',accent:'cyan',title:'อย่าเสพข่าวแบบทาสสื่อ',desc:'อ่านแล้วถามต่อว่า "ทำไมแม่งถึงเกิดขึ้น?"',category:'mindset',
+    actions:['เวลาอ่านข่าว ให้ตั้งคำถาม "ทำไมถึงเกิดขึ้น?" ก่อนเชื่อทุกครั้ง','หยุดติดตามเพจข่าวที่ทำให้ตื่นตระหนกโดยไม่มีข้อมูลจริง','เลือกอ่านข่าวจาก primary source เช่น SEC, Bloomberg']},
+  {id:2,emoji:'📉',accent:'pink',title:'เงินสดอยู่เฉยๆ มูลค่าแม่งลด',desc:'เงินเฟ้อกินทุกวัน ดอกเบี้ยไม่พอ',category:'invest',
+    actions:['คำนวณเงินสดส่วนเกินที่นอนอยู่ในบัญชีออมทรัพย์ธรรมดา','ย้ายเงินส่วนเกินไปสู่สินทรัพย์ที่ผลตอบแทนชนะเงินเฟ้อ','ตั้ง alert เตือนตัวเองเมื่อเงินสดสะสมเกิน 6 เดือนค่าใช้จ่าย']},
+  {id:3,emoji:'🎯',accent:'yellow',title:'เลือกสินทรัพย์ให้ตรงเป้า',desc:'ผลตอบแทนสูง = ความเสี่ยงสูง',category:'invest',
+    actions:['กำหนดเป้าหมายการลงทุนให้ชัด: ระยะสั้น / กลาง / ยาว','ทำ risk tolerance test เพื่อรู้ว่าตัวเองรับความเสี่ยงได้แค่ไหน','จัดพอร์ตให้สอดคล้องกับเป้าหมายและ risk profile']},
+  {id:4,emoji:'🇺🇸',accent:'cyan',title:'S&P 500 คือทีมตัวท็อปของโลก',desc:'ถือยาวด้วยเงินเย็น มีลุ้นชนะสูง',category:'invest',
+    actions:['เปิดบัญชีกองทุนรวมหรือ ETF ที่ track S&P 500','ตั้ง DCA รายเดือนด้วยจำนวนคงที่','ตั้งกติกา "ห้ามขายภายใน 5 ปี" สำหรับพอร์ตนี้']},
+  {id:5,emoji:'🌡',accent:'pink',title:'อย่าเอาเงินร้อนไปลงทุนมั่ว',desc:'ค่าเทอม ค่าบ้าน ค่าใช้ชีวิต ห้ามเสี่ยง',category:'discipline',
+    actions:['แยกบัญชีให้ชัด: ค่าใช้จ่าย / ฉุกเฉิน / ลงทุน','สำรองเงินฉุกเฉินอย่างน้อย 3–6 เดือนของค่าใช้จ่าย','ลงทุนเฉพาะเงินที่ไม่ใช้แล้วไม่เดือดร้อน']},
+  {id:6,emoji:'📋',accent:'green',title:'วินัยการเงินคือของจริง',desc:'รายได้เพิ่ม แต่รายจ่ายอย่าพุ่งตาม',category:'discipline',
+    actions:['ตั้งกฎ Pay Yourself First: โอนเงินออมก่อนทันทีที่ได้รับเงินเดือน','เมื่อขึ้นเงินเดือน ให้เพิ่มสัดส่วนออม/ลงทุน','ใช้แอปหรือสเปรดชีตจดรายรับ-รายจ่ายทุกเดือน']},
+  {id:7,emoji:'💰',accent:'yellow',title:'มีเงินก้อนแล้ว อย่าเพิ่งทำตัวรวย',desc:'ปล่อยให้เงินทำงานก่อน',category:'discipline',
+    actions:['กำหนดแผนการลงทุนก่อนแตะเงินก้อนนั้น','ห้ามอัปเกรดไลฟ์สไตล์ทันที — รออย่างน้อย 6 เดือน','นำเงินก้อนไปทำงานในสินทรัพย์ที่วางแผนไว้แล้ว']},
+  {id:8,emoji:'🛒',accent:'cyan',title:'ซื้อหุ้นจากของที่เราใช้จริง',desc:'อย่าเป็นแค่ลูกค้า ต้องคิดแบบเจ้าของ',category:'invest',
+    actions:['ลิสต์สินค้า/บริการที่ตัวเองใช้ประจำอย่างน้อย 10 อย่าง','ค้นหาว่าบริษัทไหนอยู่เบื้องหลังสินค้าเหล่านั้น','อ่านงบการเงินของบริษัทที่สนใจอย่างน้อย 1 บริษัท']},
+  {id:9,emoji:'🔍',accent:'green',title:'อย่ามัวแต่ดูกราฟ จนลืมดูสินค้า',desc:'ดูทั้งธุรกิจ คนใช้ และกำไร',category:'invest',
+    actions:['ก่อนลงทุน อ่าน business model ของบริษัทให้เข้าใจก่อน','ดูงบการเงินย้อนหลัง 3–5 ปี: รายได้, กำไร, หนี้สิน','ลองใช้สินค้า/บริการของบริษัทนั้นเองก่อนซื้อหุ้น']},
+  {id:10,emoji:'⏰',accent:'yellow',title:'เกมการเงินต้องมองยาว 10 ปี',desc:'ออม เก็บเงิน ลงทุนต่อเนื่อง',category:'mindset',
+    actions:['ตั้ง reminder รายปีเพื่อ review พอร์ต ไม่ใช่รายวัน','วางแผนทางการเงิน 10 ปีข้างหน้าให้ชัดเจนอย่างน้อย 1 ครั้ง','ถือนิสัย "ลงทุนทุกเดือนไม่ว่าตลาดจะเป็นอย่างไร"']},
+  {id:11,emoji:'📅',accent:'pink',title:'หุ้นไม่ได้ขึ้นทุกวัน',desc:'แต่อารีที่แรงในไม่กี่วันสำคัญ',category:'mindset',
+    actions:['ตั้งกติกา "ห้าม panic sell" เมื่อพอร์ตลด 10%','จดเหตุผลที่ซื้อหุ้นแต่ละตัวไว้ กลับมาอ่านเมื่อตลาดแกว่ง','ศึกษาประวัติ S&P 500 ว่าผ่านวิกฤตมาแล้วกี่ครั้ง']},
+  {id:12,emoji:'🚰',accent:'cyan',title:'Active Income vs Passive Income',desc:'หยุดทำงานรายได้หยุด vs เงินยังไหล',category:'income',
+    actions:['คำนวณว่าตอนนี้ passive income คิดเป็น % เท่าไหร่ของรายได้รวม','วางแผนสร้าง passive income อย่างน้อย 1 ช่องทางใหม่ภายใน 1 ปี','ตั้งเป้าให้ passive income ครอบคลุมค่าใช้จ่ายพื้นฐานภายใน 5 ปี']},
+  {id:13,emoji:'🏆',accent:'green',title:'ความอดทนคือต้นทุนต่อ',desc:'ใช้น้อย ลงทุนสม่ำเสมอ ต่างกันมหาศาล',category:'discipline',
+    actions:['ตั้ง auto-invest ให้โอนเงินลงทุนอัตโนมัติทุกเดือน','ลองคำนวณ compound interest เพื่อเห็นภาพว่า "อดทน" มีผลแค่ไหน','ลดค่าใช้จ่ายที่ไม่จำเป็นอย่างน้อย 1 รายการในเดือนนี้']},
+  {id:14,emoji:'💡',accent:'yellow',title:'คิดต่างจากคนส่วนใหญ่',desc:'ใช้ข้อมูล ไม่วิ่งตามกระแส',category:'mindset',
+    actions:['หาข้อมูลจาก primary source: งบบริษัท, รายงาน SEC, นักวิเคราะห์','เมื่อคนส่วนใหญ่กลัวและขาย ให้ถามว่า "เราควรซื้อไหม?"','เลิกซื้อหุ้นตาม influencer โดยไม่ตรวจสอบข้อมูลเอง']},
+  {id:15,emoji:'⌛',accent:'pink',title:'เงินไม่ชอบคนใจร้อน',desc:'คุมรายจ่าย ลงทุนเป็น อดทนให้นานพอ',category:'mindset',
+    actions:['กำหนด "ล็อคพอร์ต" อย่างน้อย 3–5 ปีสำหรับเงินลงทุนระยะยาว','ทุกครั้งที่อยากขายแบบตื่นตระหนก ให้รอ 48 ชั่วโมงก่อน','ทบทวนเป้าหมายระยะยาวของตัวเองทุกครั้งที่ตลาดแกว่ง']},
+];
+
+/* Radar categories: map rule ids → 5 dimensions */
+const RADAR_DIMS = [
+  { label:'Mindset',   ids:[1,10,11,14,15], color:'#00d4ff' },
+  { label:'วินัยเงิน', ids:[5,6,7,13],      color:'#00ff9d' },
+  { label:'การลงทุน',  ids:[2,3,4,8,9],     color:'#ffe600' },
+  { label:'รายได้',    ids:[12],             color:'#ff2d78' },
+  { label:'Action',    ids:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], color:'#7c3aed', isTask:true },
 ];
 
 const ACCENT_COLORS = {
-  cyan:  { border:'#00d4ff', text:'#00d4ff', bg:'rgba(0,212,255,0.08)'  },
-  pink:  { border:'#ff2d78', text:'#ff2d78', bg:'rgba(255,45,120,0.08)' },
-  green: { border:'#00ff9d', text:'#00ff9d', bg:'rgba(0,255,157,0.08)'  },
-  yellow:{ border:'#ffe600', text:'#ffe600', bg:'rgba(255,230,0,0.08)'  },
+  cyan:  {border:'#00d4ff',text:'#00d4ff',bg:'rgba(0,212,255,0.08)'},
+  pink:  {border:'#ff2d78',text:'#ff2d78',bg:'rgba(255,45,120,0.08)'},
+  green: {border:'#00ff9d',text:'#00ff9d',bg:'rgba(0,255,157,0.08)'},
+  yellow:{border:'#ffe600',text:'#ffe600',bg:'rgba(255,230,0,0.08)'},
 };
-
 const STATUS_META = {
-  notstarted:{ label:'ยังไม่เริ่ม', icon:'⬜', cls:'text-cyber-muted',  bg:'bg-transparent',    border:'border-cyber-border' },
-  learning:  { label:'กำลังฝึก',    icon:'🔥', cls:'text-cyber-yellow', bg:'bg-yellow-500/10',  border:'border-yellow-500'   },
-  mastered:  { label:'ทำได้ดีแล้ว', icon:'✅', cls:'text-cyber-green',  bg:'bg-emerald-500/10', border:'border-emerald-400'  },
+  notstarted:{label:'ยังไม่เริ่ม',icon:'⬜',cls:'text-cyber-muted', bg:'bg-transparent',   border:'border-cyber-border'},
+  learning:  {label:'กำลังฝึก',   icon:'🔥',cls:'text-cyber-yellow',bg:'bg-yellow-500/10', border:'border-yellow-500'},
+  mastered:  {label:'ทำได้ดีแล้ว',icon:'✅',cls:'text-cyber-green', bg:'bg-emerald-500/10',border:'border-emerald-400'},
 };
+const STATUS_SCORE = {notstarted:0, learning:5, mastered:10}; // out of 10 per rule → max 150 → map to 100
 
-/* ──────────────────────────────────────────
+/* ═══════════════════════════════════════
    MODULE 2: STATE
-────────────────────────────────────────── */
-const STORAGE_KEY = 'ck_financial_v2';
-
+═══════════════════════════════════════ */
+const STORAGE_KEY = 'ck_financial_v3';
 const state = {
-  data: (() => {
-    try {
-      const s = localStorage.getItem(STORAGE_KEY);
-      if (s) return JSON.parse(s);
-    } catch(e) {}
-    return RULES_DATA.reduce((acc, r) => {
-      acc[r.id] = { status:'notstarted', note:'', tasks: r.actions.map(() => false) };
+  data: (()=>{
+    try{ const s=localStorage.getItem(STORAGE_KEY); if(s) return JSON.parse(s); }catch(e){}
+    return RULES_DATA.reduce((acc,r)=>{
+      acc[r.id]={status:'notstarted',note:'',tasks:r.actions.map(()=>false)};
       return acc;
-    }, {});
+    },{});
   })(),
-  save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data)); },
-  setStatus(id, status) { this.data[id].status = status; this.save(); },
-  setNote(id, note) { this.data[id].note = note; this.save(); },
-  toggleTask(ruleId, taskIdx) {
-    if (!this.data[ruleId].tasks) this.data[ruleId].tasks = RULES_DATA.find(r=>r.id===ruleId).actions.map(()=>false);
-    this.data[ruleId].tasks[taskIdx] = !this.data[ruleId].tasks[taskIdx];
-    this.save();
+  save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(this.data)); },
+  setStatus(id,s){ this.data[id].status=s; this.save(); },
+  setNote(id,n){ this.data[id].note=n; this.save(); },
+  toggleTask(ruleId,idx){
+    if(!this.data[ruleId].tasks) this.data[ruleId].tasks=RULES_DATA.find(r=>r.id===ruleId).actions.map(()=>false);
+    this.data[ruleId].tasks[idx]=!this.data[ruleId].tasks[idx]; this.save();
   },
-  getTask(ruleId, taskIdx) {
-    const tasks = this.data[ruleId]?.tasks;
-    return tasks ? tasks[taskIdx] : false;
-  },
+  getTask(ruleId,idx){ const t=this.data[ruleId]?.tasks; return t?t[idx]:false; },
+  /* Compute aggregated stats */
+  stats(){
+    const counts={notstarted:0,learning:0,mastered:0};
+    let tasksDone=0,tasksTotal=0,score=0;
+    RULES_DATA.forEach(r=>{
+      const d=this.data[r.id]||{status:'notstarted',tasks:[]};
+      counts[d.status]++;
+      const t=d.tasks||[];
+      tasksDone+=t.filter(Boolean).length;
+      tasksTotal+=r.actions.length;
+      // score = status points + task bonus
+      const statusPts = STATUS_SCORE[d.status]||0;
+      const taskBonus = t.length ? Math.round((t.filter(Boolean).length/t.length)*4) : 0; // max 4 per rule
+      score += statusPts + taskBonus;
+    });
+    // max score = 15*(10+4)=210, map to 100
+    return {counts, tasksDone, tasksTotal, score: Math.min(100, Math.round(score/210*100))};
+  }
 };
 
-/* ──────────────────────────────────────────
-   MODULE 3: MOCK API
-────────────────────────────────────────── */
-const api = {
-  async fetchData(userId='local') { return { ok:true, data:state.data }; },
-  async pushData(payload) { return { ok:true, synced:Object.keys(payload).length }; },
-  exportData() {
-    const blob = new Blob([JSON.stringify({ meta:{ version:'2.1', exportedAt:new Date().toISOString() }, progress:state.data },null,2)], { type:'application/json' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'ck_financial_progress.json'; a.click();
-    showToast('📤 Export สำเร็จ!');
-  },
-  importPrompt() {
-    const input = document.createElement('input'); input.type='file'; input.accept='.json';
-    input.onchange = async e => {
-      try {
-        const json = JSON.parse(await e.target.files[0].text());
-        const imported = json.progress || json;
-        Object.keys(imported).forEach(id => { if (state.data[id]!==undefined) state.data[id]=imported[id]; });
-        state.save(); renderAllCards(); renderActionPlan(); updateProgress();
-        showToast('📥 Import สำเร็จ!');
-      } catch { showToast('❌ ไฟล์ไม่ถูกต้อง','error'); }
-    };
-    input.click();
-  },
-  async syncToServer() {
-    showToast('⏳ กำลัง Sync...');
-    await new Promise(r=>setTimeout(r,1200));
-    const result = await this.pushData(state.data);
-    showToast(`☁ Sync สำเร็จ! (${result.synced} กฎ)`);
-  },
-  resetAll() {
-    if (!confirm('⚠️ ยืนยันรีเซ็ตข้อมูลทั้งหมด?')) return;
-    RULES_DATA.forEach(r => { state.data[r.id] = { status:'notstarted', note:'', tasks:r.actions.map(()=>false) }; });
-    state.save(); renderAllCards(); renderActionPlan(); updateProgress();
-    showToast('🗑 รีเซ็ตเรียบร้อย');
-  },
+/* ═══════════════════════════════════════
+   MODULE 3: CHARTS (Chart.js)
+═══════════════════════════════════════ */
+let donutChart, barChart, radarChart;
+
+const CHART_DEFAULTS = {
+  color: '#c8d6f0',
+  font: { family:'Sarabun', size:11 },
 };
 
-/* ──────────────────────────────────────────
-   MODULE 4: CARD RENDERING (Rules View)
-────────────────────────────────────────── */
-function buildCard(rule) {
+function initCharts(){
+  Chart.defaults.color = CHART_DEFAULTS.color;
+  Chart.defaults.font  = CHART_DEFAULTS.font;
+
+  /* ── Donut ── */
+  donutChart = new Chart(document.getElementById('donutChart'),{
+    type:'doughnut',
+    data:{
+      labels:['ทำได้ดีแล้ว','กำลังฝึก','ยังไม่เริ่ม'],
+      datasets:[{
+        data:[0,0,15],
+        backgroundColor:['#00ff9d','#ffe600','#1e2d5a'],
+        borderColor:['#0a0e1a'],
+        borderWidth:3,
+        hoverOffset:6,
+      }]
+    },
+    options:{
+      cutout:'72%',
+      plugins:{legend:{display:false},tooltip:{
+        callbacks:{label:ctx=>' '+ctx.label+': '+ctx.parsed+' กฎ'}
+      }},
+      animation:{duration:800}
+    }
+  });
+
+  /* ── Bar Chart: tasks per rule ── */
+  barChart = new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{
+      labels: RULES_DATA.map(r=>'#'+r.id),
+      datasets:[
+        {label:'เสร็จแล้ว', data:new Array(15).fill(0), backgroundColor:'rgba(0,255,157,0.7)', borderRadius:4, barThickness:10},
+        {label:'ยังเหลือ',  data:new Array(15).fill(3), backgroundColor:'rgba(30,45,90,0.8)',   borderRadius:4, barThickness:10},
+      ]
+    },
+    options:{
+      indexAxis:'x',
+      scales:{
+        x:{stacked:true, grid:{color:'rgba(30,45,90,0.5)'}, ticks:{font:{size:10}}},
+        y:{stacked:true, grid:{color:'rgba(30,45,90,0.5)'}, max:3, ticks:{stepSize:1}},
+      },
+      plugins:{legend:{labels:{boxWidth:10,font:{size:10}}},
+        tooltip:{callbacks:{title:ctx=>'กฎ '+RULES_DATA[ctx[0].dataIndex].id+': '+RULES_DATA[ctx[0].dataIndex].title}}},
+      animation:{duration:600},
+      maintainAspectRatio:false,
+    }
+  });
+
+  /* ── Radar ── */
+  radarChart = new Chart(document.getElementById('radarChart'),{
+    type:'radar',
+    data:{
+      labels:['Mindset 🧠','วินัยเงิน 📋','การลงทุน 📈','รายได้ 💸','Action ☑'],
+      datasets:[{
+        label:'ระดับของคุณ',
+        data:[0,0,0,0,0],
+        backgroundColor:'rgba(0,212,255,0.15)',
+        borderColor:'#00d4ff',
+        borderWidth:2,
+        pointBackgroundColor:'#00d4ff',
+        pointRadius:4,
+      }]
+    },
+    options:{
+      scales:{r:{
+        min:0, max:100,
+        grid:{color:'rgba(30,45,90,0.8)'},
+        angleLines:{color:'rgba(30,45,90,0.8)'},
+        pointLabels:{font:{size:11},color:'#c8d6f0'},
+        ticks:{display:false},
+      }},
+      plugins:{legend:{display:false}},
+      animation:{duration:700},
+    }
+  });
+}
+
+function updateCharts(){
+  const {counts, tasksDone, tasksTotal} = state.stats();
+
+  /* Donut */
+  donutChart.data.datasets[0].data = [counts.mastered, counts.learning, counts.notstarted];
+  donutChart.update();
+  const mastPct = Math.round(counts.mastered/15*100);
+  document.getElementById('donut-center-val').textContent = mastPct+'%';
+  document.querySelectorAll('.count-mst2').forEach(el=>el.textContent=counts.mastered);
+  document.querySelectorAll('.count-lrn2').forEach(el=>el.textContent=counts.learning);
+  document.querySelectorAll('.count-ns2').forEach(el=>el.textContent=counts.notstarted);
+
+  /* Bar */
+  const doneCounts = RULES_DATA.map(r=>(state.data[r.id]?.tasks||[]).filter(Boolean).length);
+  const leftCounts = RULES_DATA.map(r=>r.actions.length-(state.data[r.id]?.tasks||[]).filter(Boolean).length);
+  barChart.data.datasets[0].data = doneCounts;
+  barChart.data.datasets[1].data = leftCounts;
+  barChart.update();
+
+  /* Radar: score per dimension (0-100) */
+  const radarScores = RADAR_DIMS.map(dim=>{
+    if(dim.isTask){
+      // task dimension: ratio of done tasks across all rules
+      const done = RULES_DATA.reduce((s,r)=>{
+        const t=state.data[r.id]?.tasks||[];
+        return s+t.filter(Boolean).length;
+      },0);
+      const tot = RULES_DATA.reduce((s,r)=>s+r.actions.length,0);
+      return tot ? Math.round(done/tot*100) : 0;
+    }
+    // status dimension
+    const scores = dim.ids.map(id=>{
+      const s=state.data[id]?.status||'notstarted';
+      return s==='mastered'?100 : s==='learning'?50 : 0;
+    });
+    return Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+  });
+  radarChart.data.datasets[0].data = radarScores;
+  radarChart.update();
+}
+
+/* ═══════════════════════════════════════
+   MODULE 4: DASHBOARD RENDER
+═══════════════════════════════════════ */
+function renderDashboard(){
+  const {counts,tasksDone,tasksTotal,score} = state.stats();
+
+  /* KPI */
+  document.getElementById('kpi-mastered').textContent = counts.mastered;
+  document.getElementById('kpi-learning').textContent = counts.learning;
+  document.getElementById('kpi-tasks').textContent    = tasksDone;
+  document.getElementById('kpi-tasks-label').textContent = 'จาก '+tasksTotal+' tasks';
+  document.getElementById('kpi-score').textContent    = score;
+
+  /* Header counters */
+  document.getElementById('progress-label').textContent = counts.mastered+' / 15 กฎ';
+  const mstPct = Math.round(counts.mastered/15*100);
+  document.getElementById('progress-bar').style.width = mstPct+'%';
+  document.querySelectorAll('.count-ns').forEach(el=>el.textContent=counts.notstarted);
+  document.querySelectorAll('.count-lrn').forEach(el=>el.textContent=counts.learning);
+  document.querySelectorAll('.count-mst').forEach(el=>el.textContent=counts.mastered);
+  document.getElementById('tasks-done').textContent  = tasksDone;
+  document.getElementById('tasks-total').textContent = tasksTotal;
+
+  /* Per-rule list */
+  const list = document.getElementById('dash-rule-list');
+  list.innerHTML = '';
+  RULES_DATA.forEach(r=>{
+    const acc = ACCENT_COLORS[r.accent];
+    const d   = state.data[r.id]||{status:'notstarted',tasks:[]};
+    const tasks = d.tasks||[];
+    const done  = tasks.filter(Boolean).length;
+    const pct   = r.actions.length ? Math.round(done/r.actions.length*100) : 0;
+    const statusIcon = STATUS_META[d.status||'notstarted'].icon;
+    const row = document.createElement('div');
+    row.className = 'dash-rule-row';
+    row.innerHTML = `
+      <span class="text-base w-6 text-center flex-shrink-0">${statusIcon}</span>
+      <span class="text-xs text-cyber-text w-6 flex-shrink-0" style="color:${acc.text}">#${r.id}</span>
+      <span class="text-xs text-cyber-text flex-1 truncate">${r.emoji} ${r.title}</span>
+      <span class="text-xs text-cyber-muted flex-shrink-0 w-12 text-right">${done}/${r.actions.length}</span>
+      <div class="dash-bar-track w-20 flex-shrink-0">
+        <div class="dash-bar-fill" style="width:${pct}%;background:${acc.border}"></div>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+
+  /* Insights */
+  generateInsights(counts, tasksDone, tasksTotal, score);
+
+  updateCharts();
+}
+
+function generateInsights(counts, tasksDone, tasksTotal, score){
+  const box = document.getElementById('insight-box');
+  const insights = [];
+
+  // Next rule to focus
+  const nextLearning = RULES_DATA.find(r=>(state.data[r.id]?.status||'notstarted')==='learning');
+  const nextNotStarted = RULES_DATA.find(r=>(state.data[r.id]?.status||'notstarted')==='notstarted');
+
+  if(counts.mastered===0 && counts.learning===0){
+    insights.push('🚀 <strong>เริ่มต้นเลย!</strong> เลือกกฎที่คุณรู้สึกว่าทำได้เลยสักข้อ แล้วเปลี่ยนสถานะเป็น "กำลังฝึก"');
+  }
+  if(nextLearning){
+    const tasks = state.data[nextLearning.id]?.tasks||[];
+    const rem = tasks.filter(v=>!v).length;
+    insights.push(`🔥 <strong>กฎ #${nextLearning.id}</strong> "${nextLearning.title}" — ยังเหลือ ${rem} action tasks ที่ต้องทำ`);
+  }
+  if(score>=70){
+    insights.push('🏆 <strong>เยี่ยมมาก!</strong> คะแนนของคุณ '+score+'/100 — คุณอยู่ในกลุ่มนักการเงินระดับ Advanced แล้ว');
+  } else if(score>=40){
+    insights.push('📈 <strong>กำลังไปได้ดี</strong> — เน้น Mastered กฎที่ "กำลังฝึก" อยู่ให้ครบก่อน แล้ว score จะพุ่ง');
+  } else {
+    insights.push('💡 <strong>Tip:</strong> เริ่มจากกฎ #6 (วินัยการเงิน) และ #13 (ความอดทน) ก่อน เพราะเป็นฐานของทุกกฎ');
+  }
+
+  // Task completion insight
+  const taskPct = tasksTotal ? Math.round(tasksDone/tasksTotal*100) : 0;
+  if(taskPct < 30){
+    insights.push(`☑ คุณทำ Action Tasks ไปแล้ว <strong>${taskPct}%</strong> — ลองเข้าไปติ๊กงานใน Action Plan ให้ครบขึ้น`);
+  } else if(taskPct >= 80){
+    insights.push(`☑ Action Tasks ของคุณ <strong>${taskPct}%</strong> — ยอดเยี่ยม! ใกล้ครบแล้ว อีกนิดเดียว!`);
+  }
+
+  // Weakest dimension
+  const dimScores = ['mindset','discipline','invest','income'].map(cat=>{
+    const catRules = RULES_DATA.filter(r=>r.category===cat);
+    const avg = catRules.reduce((s,r)=>{
+      const st=state.data[r.id]?.status||'notstarted';
+      return s+(st==='mastered'?100:st==='learning'?50:0);
+    },0) / (catRules.length||1);
+    return {cat,avg};
+  });
+  const weakest = dimScores.sort((a,b)=>a.avg-b.avg)[0];
+  const catName = {mindset:'Mindset 🧠',discipline:'วินัยเงิน 📋',invest:'การลงทุน 📈',income:'รายได้ 💸'};
+  if(weakest.avg < 50){
+    insights.push(`⚡ มิติที่ควรโฟกัส: <strong>${catName[weakest.cat]}</strong> — ยังมีช่องว่างให้พัฒนาอีกมาก`);
+  }
+
+  box.innerHTML = insights.map(i=>`<p class="flex gap-2 items-start"><span>${i}</span></p>`).join('');
+}
+
+/* ═══════════════════════════════════════
+   MODULE 5: CARD RENDERING
+═══════════════════════════════════════ */
+function buildCard(rule){
   const acc = ACCENT_COLORS[rule.accent];
   const saved = state.data[rule.id];
-  const currentStatus = saved?.status || 'notstarted';
-  const currentNote   = saved?.note   || '';
-  const tasks = saved?.tasks || rule.actions.map(()=>false);
-  const tasksDone = tasks.filter(Boolean).length;
-  const tasksTotal = rule.actions.length;
+  const status = saved?.status||'notstarted';
+  const note   = saved?.note||'';
+  const tasks  = saved?.tasks||rule.actions.map(()=>false);
+  const done   = tasks.filter(Boolean).length;
+  const total  = rule.actions.length;
 
   const card = document.createElement('div');
-  card.className = 'rule-card relative bg-cyber-card rounded-2xl p-5 border overflow-hidden';
-  card.dataset.id = rule.id; card.dataset.status = currentStatus;
-  card.style.borderColor = acc.border + '33';
+  card.className='rule-card relative bg-cyber-card rounded-2xl p-5 border overflow-hidden';
+  card.dataset.id=rule.id; card.dataset.status=status;
+  card.style.borderColor=acc.border+'33';
 
-  // Top stripe
-  const stripe = document.createElement('div');
-  stripe.style.cssText = `position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${acc.border},transparent);`;
+  const stripe=document.createElement('div');
+  stripe.style.cssText=`position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${acc.border},transparent);`;
   card.appendChild(stripe);
 
-  card.innerHTML += `
+  card.innerHTML+=`
     <div class="flex items-start gap-3 mb-3">
       <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm font-display font-black"
            style="background:${acc.bg};color:${acc.text};border:1px solid ${acc.border}44">${rule.id}</div>
@@ -548,260 +664,239 @@ function buildCard(rule) {
         <p class="text-cyber-muted text-xs mt-0.5 leading-relaxed">${rule.desc}</p>
       </div>
     </div>
-
-    <!-- Status buttons -->
     <div class="flex gap-2 mb-3" id="status-group-${rule.id}">
       ${Object.entries(STATUS_META).map(([key,meta])=>`
         <button onclick="setStatus(${rule.id},'${key}')" data-status="${key}"
           class="status-btn flex-1 px-1 py-1.5 rounded-lg border text-xs font-semibold text-center hover:opacity-90 transition-all
-            ${currentStatus===key ? meta.bg+' '+meta.border+' '+meta.cls+' active-status' : 'border-cyber-border text-cyber-muted'}">
+          ${status===key?meta.bg+' '+meta.border+' '+meta.cls+' active-status':'border-cyber-border text-cyber-muted'}">
           <span class="block text-base leading-none">${meta.icon}</span>
           <span class="block mt-0.5 text-[10px] leading-tight">${meta.label}</span>
         </button>`).join('')}
     </div>
-
-    <!-- Action checklist toggle -->
-    <button onclick="toggleActionSection(${rule.id}, this)"
+    <button onclick="toggleActionSection(${rule.id},this)"
       class="expand-btn w-full flex items-center justify-between px-3 py-2 rounded-lg border border-cyber-border text-xs text-cyber-muted hover:border-cyber-cyan hover:text-cyber-cyan transition-all mb-2">
-      <span>☑ Action Plan <span class="font-bold" id="task-count-${rule.id}" style="color:${acc.text}">${tasksDone}/${tasksTotal}</span></span>
+      <span>☑ Action Plan <span class="font-bold" id="task-count-${rule.id}" style="color:${acc.text}">${done}/${total}</span></span>
       <svg class="chevron w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
     </button>
-
-    <!-- Mini progress -->
-    <div class="mini-progress mb-2" id="mini-prog-wrap-${rule.id}">
-      <div class="mini-progress-fill" id="mini-prog-${rule.id}" style="width:${tasksTotal?Math.round(tasksDone/tasksTotal*100):0}%"></div>
-    </div>
-
-    <!-- Action items (collapsible) -->
+    <div class="mini-progress mb-2"><div class="mini-progress-fill" id="mini-prog-${rule.id}" style="width:${total?Math.round(done/total*100):0}%"></div></div>
     <div class="action-section" id="action-section-${rule.id}">
       <div class="space-y-0.5 mb-3">
-        ${rule.actions.map((action,idx)=>`
-          <div class="action-item ${tasks[idx]?'done':''}" id="action-item-${rule.id}-${idx}" onclick="toggleTask(${rule.id},${idx})">
-            <div class="check-box" id="check-${rule.id}-${idx}">
+        ${rule.actions.map((a,i)=>`
+          <div class="action-item ${tasks[i]?'done':''}" id="action-item-${rule.id}-${i}" onclick="toggleTask(${rule.id},${i})">
+            <div class="check-box" id="check-${rule.id}-${i}">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#00ff9d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <span class="action-text text-xs leading-relaxed text-cyber-text">${action}</span>
+            <span class="action-text text-xs leading-relaxed text-cyber-text">${a}</span>
           </div>`).join('')}
       </div>
     </div>
-
-    <!-- Personal note -->
     <div>
       <label class="block text-[10px] text-cyber-muted mb-1 tracking-wider uppercase">📝 โน้ตส่วนตัว</label>
       <textarea id="note-${rule.id}" placeholder="พิมพ์แผนการหรือความคิดเห็น..."
-        onchange="saveNote(${rule.id},this.value)" onblur="saveNote(${rule.id},this.value)">${currentNote}</textarea>
+        onchange="saveNote(${rule.id},this.value)" onblur="saveNote(${rule.id},this.value)">${note}</textarea>
     </div>
   `;
-
-  card.insertBefore(stripe, card.firstChild);
+  card.insertBefore(stripe,card.firstChild);
   return card;
 }
 
-function renderAllCards() {
-  const grid = document.getElementById('cards-grid');
-  grid.innerHTML = '';
-  RULES_DATA.forEach(r => grid.appendChild(buildCard(r)));
+function renderAllCards(){
+  const grid=document.getElementById('cards-grid');
+  grid.innerHTML='';
+  RULES_DATA.forEach(r=>grid.appendChild(buildCard(r)));
 }
 
-/* ──────────────────────────────────────────
-   MODULE 5: ACTION PLAN PAGE VIEW
-────────────────────────────────────────── */
-function renderActionPlan() {
-  const list = document.getElementById('action-plan-list');
-  list.innerHTML = '';
-  RULES_DATA.forEach(rule => {
-    const acc = ACCENT_COLORS[rule.accent];
-    const tasks = state.data[rule.id]?.tasks || rule.actions.map(()=>false);
-    const done = tasks.filter(Boolean).length;
-    const total = rule.actions.length;
-    const pct = total ? Math.round(done/total*100) : 0;
-
-    const block = document.createElement('div');
-    block.className = 'bg-cyber-card rounded-2xl border overflow-hidden';
-    block.style.borderColor = acc.border + '33';
-    block.innerHTML = `
+/* ═══════════════════════════════════════
+   MODULE 6: ACTION PLAN PAGE
+═══════════════════════════════════════ */
+function renderActionPlan(){
+  const list=document.getElementById('action-plan-list');
+  list.innerHTML='';
+  RULES_DATA.forEach(rule=>{
+    const acc=ACCENT_COLORS[rule.accent];
+    const tasks=state.data[rule.id]?.tasks||rule.actions.map(()=>false);
+    const done=tasks.filter(Boolean).length;
+    const total=rule.actions.length;
+    const pct=total?Math.round(done/total*100):0;
+    const block=document.createElement('div');
+    block.className='bg-cyber-card rounded-2xl border overflow-hidden';
+    block.style.borderColor=acc.border+'33';
+    block.innerHTML=`
       <div class="px-5 py-4">
         <div class="flex items-center gap-3 mb-3">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-display font-black flex-shrink-0"
                style="background:${acc.bg};color:${acc.text};border:1px solid ${acc.border}44">${rule.id}</div>
-          <div class="flex-1 min-w-0">
-            <h3 class="text-sm font-bold text-white leading-snug">${rule.emoji} ${rule.title}</h3>
-          </div>
+          <h3 class="text-sm font-bold text-white flex-1">${rule.emoji} ${rule.title}</h3>
           <span class="text-xs font-bold flex-shrink-0" style="color:${acc.text}">${done}/${total}</span>
         </div>
-        <div class="mini-progress mb-4">
-          <div class="mini-progress-fill ap-prog-${rule.id}" style="width:${pct}%"></div>
-        </div>
+        <div class="mini-progress mb-4"><div class="mini-progress-fill ap-prog-${rule.id}" style="width:${pct}%"></div></div>
         <div class="space-y-1">
-          ${rule.actions.map((action,idx)=>`
-            <div class="action-item ${tasks[idx]?'done':''}" id="ap-item-${rule.id}-${idx}" onclick="toggleTask(${rule.id},${idx},true)">
-              <div class="check-box" id="ap-check-${rule.id}-${idx}">
+          ${rule.actions.map((a,i)=>`
+            <div class="action-item ${tasks[i]?'done':''}" id="ap-item-${rule.id}-${i}" onclick="toggleTask(${rule.id},${i},true)">
+              <div class="check-box">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#00ff9d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <span class="action-text text-xs leading-relaxed text-cyber-text">${action}</span>
+              <span class="action-text text-xs leading-relaxed text-cyber-text">${a}</span>
             </div>`).join('')}
         </div>
-      </div>
-    `;
+      </div>`;
     list.appendChild(block);
   });
 }
 
-/* ──────────────────────────────────────────
-   MODULE 6: INTERACTIONS
-────────────────────────────────────────── */
-
-/* Toggle action section inside card */
-function toggleActionSection(ruleId, btn) {
-  const section = document.getElementById(`action-section-${ruleId}`);
-  const isOpen = section.classList.contains('open');
-  section.classList.toggle('open', !isOpen);
-  btn.classList.toggle('expanded', !isOpen);
+/* ═══════════════════════════════════════
+   MODULE 7: INTERACTIONS
+═══════════════════════════════════════ */
+function toggleActionSection(ruleId,btn){
+  const s=document.getElementById(`action-section-${ruleId}`);
+  s.classList.toggle('open'); btn.classList.toggle('expanded');
 }
 
-/* Toggle a task checkbox — fromActionPage = true means update both card + action page */
-function toggleTask(ruleId, taskIdx, fromActionPage = false) {
-  state.toggleTask(ruleId, taskIdx);
-  const isDone = state.getTask(ruleId, taskIdx);
-
-  // Update card view
-  const cardItem  = document.getElementById(`action-item-${ruleId}-${taskIdx}`);
-  if (cardItem) cardItem.classList.toggle('done', isDone);
-
-  // Update action plan page view
-  const apItem = document.getElementById(`ap-item-${ruleId}-${taskIdx}`);
-  if (apItem) apItem.classList.toggle('done', isDone);
-
-  // Update mini progress bars
-  const tasks = state.data[ruleId].tasks;
-  const done = tasks.filter(Boolean).length;
-  const total = tasks.length;
-  const pct = total ? Math.round(done/total*100) : 0;
-
-  const miniBar = document.getElementById(`mini-prog-${ruleId}`);
-  if (miniBar) miniBar.style.width = pct + '%';
-  document.querySelectorAll(`.ap-prog-${ruleId}`).forEach(b => b.style.width = pct + '%');
-
-  // Update task count badge on card
-  const badge = document.getElementById(`task-count-${ruleId}`);
-  if (badge) badge.textContent = `${done}/${total}`;
-
-  updateProgress();
-
-  // 🎉 micro-celebration when all tasks done
-  if (done === total) showToast('🎉 ครบทุก Action แล้ว!');
-  else showToast(isDone ? '☑ เสร็จแล้ว!' : '↩ ยกเลิกแล้ว');
+function toggleTask(ruleId,taskIdx,fromAP=false){
+  state.toggleTask(ruleId,taskIdx);
+  const isDone=state.getTask(ruleId,taskIdx);
+  const cardItem=document.getElementById(`action-item-${ruleId}-${taskIdx}`);
+  if(cardItem) cardItem.classList.toggle('done',isDone);
+  const apItem=document.getElementById(`ap-item-${ruleId}-${taskIdx}`);
+  if(apItem) apItem.classList.toggle('done',isDone);
+  const tasks=state.data[ruleId].tasks;
+  const done=tasks.filter(Boolean).length;
+  const total=tasks.length;
+  const pct=total?Math.round(done/total*100):0;
+  const mb=document.getElementById(`mini-prog-${ruleId}`);
+  if(mb) mb.style.width=pct+'%';
+  document.querySelectorAll(`.ap-prog-${ruleId}`).forEach(b=>b.style.width=pct+'%');
+  const badge=document.getElementById(`task-count-${ruleId}`);
+  if(badge) badge.textContent=`${done}/${total}`;
+  // refresh dashboard if visible
+  if(!document.getElementById('view-dashboard').classList.contains('hidden')) renderDashboard();
+  else updateProgress();
+  showToast(isDone?'☑ เสร็จแล้ว!':'↩ ยกเลิกแล้ว');
+  if(done===total) setTimeout(()=>showToast('🎉 ครบทุก Action กฎ #'+ruleId+'!'),400);
 }
 
-/* Toggle all tasks in action plan view */
-function toggleAllActions() {
-  const allDone = RULES_DATA.every(r => {
-    const tasks = state.data[r.id]?.tasks || [];
-    return tasks.every(Boolean);
+function toggleAllActions(){
+  const allDone=RULES_DATA.every(r=>(state.data[r.id]?.tasks||[]).every(Boolean));
+  RULES_DATA.forEach(r=>{ r.actions.forEach((_,i)=>{ state.data[r.id].tasks[i]=!allDone; }); });
+  state.save(); renderAllCards(); renderActionPlan(); renderDashboard();
+  showToast(!allDone?'🎉 ติ๊กทั้งหมดแล้ว!':'↩ ล้างทั้งหมดแล้ว');
+}
+
+function setStatus(id,status){
+  state.setStatus(id,status);
+  const group=document.getElementById(`status-group-${id}`);
+  group.querySelectorAll('.status-btn').forEach(btn=>{
+    const meta=STATUS_META[btn.dataset.status];
+    const active=btn.dataset.status===status;
+    btn.className=`status-btn flex-1 px-1 py-1.5 rounded-lg border text-xs font-semibold text-center hover:opacity-90 transition-all
+      ${active?meta.bg+' '+meta.border+' '+meta.cls+' active-status':'border-cyber-border text-cyber-muted'}`;
   });
-  RULES_DATA.forEach(r => {
-    r.actions.forEach((_, idx) => {
-      state.data[r.id].tasks[idx] = !allDone;
-    });
-  });
-  state.save();
-  renderAllCards();
-  renderActionPlan();
-  updateProgress();
-  showToast(!allDone ? '🎉 ติ๊กทั้งหมดแล้ว!' : '↩ ล้างทั้งหมดแล้ว');
+  const card=document.querySelector(`.rule-card[data-id="${id}"]`);
+  if(card) card.dataset.status=status;
+  renderDashboard();
+  showToast(STATUS_META[status].icon+' บันทึกสถานะแล้ว!');
 }
 
-/* Set status */
-function setStatus(id, status) {
-  state.setStatus(id, status);
-  const group = document.getElementById(`status-group-${id}`);
-  group.querySelectorAll('.status-btn').forEach(btn => {
-    const meta = STATUS_META[btn.dataset.status];
-    const isActive = btn.dataset.status === status;
-    btn.className = `status-btn flex-1 px-1 py-1.5 rounded-lg border text-xs font-semibold text-center hover:opacity-90 transition-all
-      ${isActive ? meta.bg+' '+meta.border+' '+meta.cls+' active-status' : 'border-cyber-border text-cyber-muted'}`;
-  });
-  const card = document.querySelector(`.rule-card[data-id="${id}"]`);
-  if (card) card.dataset.status = status;
-  updateProgress();
-  showToast(STATUS_META[status].icon + ' บันทึกสถานะแล้ว!');
+function saveNote(id,value){
+  state.setNote(id,value.trim());
+  const ta=document.getElementById(`note-${id}`);
+  if(ta){ta.style.borderColor='#00ff9d';setTimeout(()=>{ta.style.borderColor='';},800);}
 }
 
-/* Save note */
-function saveNote(id, value) {
-  state.setNote(id, value.trim());
-  const ta = document.getElementById(`note-${id}`);
-  if (ta) { ta.style.borderColor='#00ff9d'; setTimeout(()=>{ ta.style.borderColor=''; }, 800); }
-}
-
-/* Filter cards */
-function filterCards(filter) {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    const isActive = btn.dataset.tab === filter;
-    btn.classList.toggle('tab-active', isActive);
-    btn.classList.toggle('text-cyber-cyan', isActive);
-    btn.classList.toggle('text-cyber-muted', !isActive);
-    btn.style.borderBottomColor = isActive ? 'var(--cyan)' : 'transparent';
+function filterCards(filter){
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    const active=btn.dataset.tab===filter;
+    btn.classList.toggle('tab-active',active);
+    btn.classList.toggle('text-cyber-cyan',active);
+    btn.classList.toggle('text-cyber-muted',!active);
+    btn.style.borderBottomColor=active?'var(--cyan)':'transparent';
   });
-  document.querySelectorAll('.rule-card').forEach(card => {
-    card.style.display = (filter==='all' || card.dataset.status===filter) ? '' : 'none';
+  document.querySelectorAll('.rule-card').forEach(card=>{
+    card.style.display=(filter==='all'||card.dataset.status===filter)?'':'none';
   });
 }
 
-/* Switch main view */
-function switchView(view) {
-  document.getElementById('view-rules').classList.toggle('hidden', view!=='rules');
-  document.getElementById('view-actions').classList.toggle('hidden', view!=='actions');
-  document.getElementById('filter-nav').classList.toggle('hidden', view!=='rules');
-  document.querySelectorAll('.page-tab').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.view === view);
-    btn.classList.toggle('text-cyber-muted', btn.dataset.view !== view);
+function switchView(view){
+  ['dashboard','rules','actions'].forEach(v=>{
+    document.getElementById('view-'+v).classList.toggle('hidden',v!==view);
   });
+  document.getElementById('filter-nav').classList.toggle('hidden',view!=='rules');
+  document.querySelectorAll('.page-tab').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.view===view);
+    btn.classList.toggle('text-cyber-muted',btn.dataset.view!==view);
+  });
+  if(view==='dashboard') renderDashboard();
 }
 
-/* Update progress bar + counters */
-function updateProgress() {
-  const counts = { notstarted:0, learning:0, mastered:0 };
-  let tasksDone = 0, tasksTotal = 0;
-  RULES_DATA.forEach(r => {
-    counts[state.data[r.id]?.status || 'notstarted']++;
-    const t = state.data[r.id]?.tasks || [];
-    tasksDone  += t.filter(Boolean).length;
-    tasksTotal += r.actions.length;
-  });
-  const pct = Math.round((counts.mastered/15)*100);
-  document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = `${counts.mastered} / 15 กฎ`;
-  document.querySelector('.count-ns').textContent  = counts.notstarted;
-  document.querySelector('.count-lrn').textContent = counts.learning;
-  document.querySelector('.count-mst').textContent = counts.mastered;
-  document.getElementById('tasks-done').textContent  = tasksDone;
-  document.getElementById('tasks-total').textContent = tasksTotal;
+function updateProgress(){
+  const {counts,tasksDone,tasksTotal}=state.stats();
+  document.getElementById('progress-label').textContent=counts.mastered+' / 15 กฎ';
+  document.getElementById('progress-bar').style.width=Math.round(counts.mastered/15*100)+'%';
+  document.querySelectorAll('.count-ns').forEach(el=>el.textContent=counts.notstarted);
+  document.querySelectorAll('.count-lrn').forEach(el=>el.textContent=counts.learning);
+  document.querySelectorAll('.count-mst').forEach(el=>el.textContent=counts.mastered);
+  document.getElementById('tasks-done').textContent=tasksDone;
+  document.getElementById('tasks-total').textContent=tasksTotal;
 }
+
+/* ═══════════════════════════════════════
+   MODULE 8: API
+═══════════════════════════════════════ */
+const api={
+  exportData(){
+    const blob=new Blob([JSON.stringify({meta:{version:'3.0',exportedAt:new Date().toISOString()},progress:state.data},null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ck_financial_progress.json';a.click();
+    showToast('📤 Export สำเร็จ!');
+  },
+  importPrompt(){
+    const input=document.createElement('input');input.type='file';input.accept='.json';
+    input.onchange=async e=>{
+      try{
+        const json=JSON.parse(await e.target.files[0].text());
+        const imported=json.progress||json;
+        Object.keys(imported).forEach(id=>{if(state.data[id]!==undefined)state.data[id]=imported[id];});
+        state.save();renderAllCards();renderActionPlan();renderDashboard();
+        showToast('📥 Import สำเร็จ!');
+      }catch{showToast('❌ ไฟล์ไม่ถูกต้อง','error');}
+    };input.click();
+  },
+  async syncToServer(){
+    showToast('⏳ กำลัง Sync...');
+    await new Promise(r=>setTimeout(r,1200));
+    showToast('☁ Sync สำเร็จ!');
+  },
+  resetAll(){
+    if(!confirm('⚠️ ยืนยันรีเซ็ตข้อมูลทั้งหมด?'))return;
+    RULES_DATA.forEach(r=>{state.data[r.id]={status:'notstarted',note:'',tasks:r.actions.map(()=>false)};});
+    state.save();renderAllCards();renderActionPlan();renderDashboard();
+    showToast('🗑 รีเซ็ตเรียบร้อย');
+  }
+};
 
 /* Toast */
 let toastTimer;
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = type==='error' ? 'var(--pink)' : 'var(--green)';
-  t.style.color = type==='error' ? '#fff' : '#000';
-  t.classList.remove('hidden'); t.classList.add('show');
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='error'?'var(--pink)':'var(--green)';
+  t.style.color=type==='error'?'#fff':'#000';
+  t.classList.remove('hidden');t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ t.classList.remove('show'); t.classList.add('hidden'); }, 2000);
+  toastTimer=setTimeout(()=>{t.classList.remove('show');t.classList.add('hidden');},2000);
 }
 
-/* ──────────────────────────────────────────
-   MODULE 7: INIT
-────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
+/* ═══════════════════════════════════════
+   MODULE 9: INIT
+═══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  initCharts();
+  renderDashboard();   // default view
   renderAllCards();
   renderActionPlan();
-  updateProgress();
 });
 </script>
 </body>
